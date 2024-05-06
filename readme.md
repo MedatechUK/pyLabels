@@ -78,7 +78,15 @@ label.add ( shapes.Image ( 3 , 5 , height-1, height-1, obj["QR"] ))
 ```
 And we can add a text string shape, again using parameters from the LABELS table stored in the obj array:
 ```python
-label.add ( shapes.String ( 8, 2, obj["PAR1"] +" (" + obj["PAR2"] + ")", fontName="Helvetica", fontSize=12 ))
+label.add ( 
+    shapes.String ( 
+        8
+        , 2
+        , obj["PAR1"] +" (" + obj["PAR2"] + ")" # Concatenate PAR1 and PAR2
+        , fontName="Helvetica"
+        , fontSize=12 
+    )
+)
 
 ```
 
