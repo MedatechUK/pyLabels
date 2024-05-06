@@ -44,11 +44,13 @@ specs = sys.modules["label.labeldefs"].L7160
 
 ```
 
-The template must contain a method to format the label called draw_label():
+The template must contain a method to draw the data in the obj value on the label. This is the draw_label() method:
 ```python
 def draw_label(label, width, height, obj): 
+    ...
 
 ```
+## draw_label() method parameters
 | Parameter   | Description                   |
 |-------------|-------------------------------|
 | label   | A drawing canvas for the current label |
@@ -67,14 +69,14 @@ obj["PAR3"]
 
 ```
 ## Label design
-Data is drawn on the canvas with [reportlab](https://docs.reportlab.com/reportlab/userguide/ch11_graphics/ "reportlab") objects.
+Data is drawn on the canvas with [reportlab library](https://docs.reportlab.com/reportlab/userguide/ch11_graphics/ "reportlab library") objects.
 
 For example, we can draw the QR code by adding an image shape to the label:
 ```python
 label.add ( shapes.Image ( 3 , 5 , height-1, height-1, obj["QR"] ))
 
 ```
-And we can add a text  string shape, using parameters from the LABELS table:
+And we can add a text string shape, again using parameters from the LABELS table stored in the obj array:
 ```python
 label.add ( shapes.String ( 8, 2, obj["PAR1"] +" (" + obj["PAR2"] + ")", fontName="Helvetica", fontSize=12 ))
 
