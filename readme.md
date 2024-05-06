@@ -38,7 +38,7 @@ To set up a label defintion, use Priority label definitions to specify the pytho
 
 The template file defined must reside in a sub-folder of \\Bin.95 called pyLabels.
 
-The template must specify a pre-defined label stock. These formats are defined in the [\\Bin.95\\LabelSpec.py](./pylabels/LabelSpec.py "\\Bin.95\\LabelSpec.py") file.
+The template must specify a pre-defined label stock. These formats are defined in the [\\Bin.95\\pyLabels\\LabelSpec.py](./pylabels/LabelSpec.py "\\Bin.95\\pyLabels\\LabelSpec.py") file.
 ```python
 specs = sys.modules["label.labeldefs"].L7160 
 
@@ -91,3 +91,11 @@ label.add (
 ```
 
 See full [template example](./pylabels/paycard.py "template example").
+
+## INI File settings
+The \\Bin.95\\pyLabels\\ folder should also contain a file called settings.ini, which identifies where to save created pdf files:
+```ini
+[file]
+SAVEDIR = f:\\save\\labels
+
+```
