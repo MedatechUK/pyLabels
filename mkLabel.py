@@ -16,10 +16,7 @@ def main():
         return None
     if arg.byName(["env","e"])==None:
         print ("No environment specified.")
-        return None
-    if arg.byName(["env","e"])==None:
-        print ("No environment specified.")
-        return None
+        return None    
     if arg.byName(["save","s"])==None:
         print ("No save name specified.")
         return None
