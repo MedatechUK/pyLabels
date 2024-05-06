@@ -1,4 +1,4 @@
-# \\bin.95\\[mkLabel.exe](./mkLabel.py "mkLabel.exe")
+# [mkLabel.exe](./mkLabel.py "\\bin.95\\mkLabel.exe")
 This program prints QR labels from the Priority labels work area.
 
 ## Parameters
