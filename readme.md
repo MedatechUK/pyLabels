@@ -1,4 +1,4 @@
-# [mkLabel.exe](./mkLabel.py "\\bin.95\\mkLabel.exe")
+# [\\bin.95\\mkLabel.exe](./mkLabel.py "\\bin.95\\mkLabel.exe")
 This program prints QR labels from the Priority labels work area.
 
 ## Parameters
@@ -33,7 +33,6 @@ FROM DUMMY
 ASCII :$.URL;
 
 ```
-
 ## Label Templates
 To set up a label defintion, use Priority label definitions to specify the python file (WITHOUT the .py ending) that contains the template.
 
@@ -67,7 +66,6 @@ obj["PAR3"]
 ...
 
 ```
-
 ## Label design
 Data is drawn on the canvas with [reportlab](https://docs.reportlab.com/reportlab/userguide/ch11_graphics/ "reportlab") objects.
 
@@ -83,4 +81,3 @@ label.add ( shapes.String ( 8, 2, obj["PAR1"] +" (" + obj["PAR2"] + ")", fontNam
 ```
 
 See full [template example](./pylabels/paycard.py "template example").
-
