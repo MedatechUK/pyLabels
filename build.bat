@@ -1,0 +1,1 @@
+PYINSTALLER .\mkLabel.py --noconfirm --onefile 
