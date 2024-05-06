@@ -36,9 +36,11 @@ ASCII :$.URL;
 ## Label Templates
 To set up a label defintion, use Priority label definitions to specify the python file (WITHOUT the .py ending) that contains the template.
 
-The template file defined must reside in a sub-folder of \\Bin.95 called pyLabels.
+Your template files must reside in a sub-folder of \\Bin.95 called pyLabels.
 
-The template must specify a pre-defined label stock. These formats are defined in the [\\Bin.95\\pyLabels\\LabelSpec.py](./pylabels/LabelSpec.py "\\Bin.95\\pyLabels\\LabelSpec.py") file.
+The template must specify a pre-defined label stock. 
+
+These formats are defined in the [\\Bin.95\\pyLabels\\LabelSpec.py](./pylabels/LabelSpec.py "\\Bin.95\\pyLabels\\LabelSpec.py") file.
 ```python
 specs = sys.modules["label.labeldefs"].L7160 
 
