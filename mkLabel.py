@@ -2,12 +2,14 @@ import labels
 import pyqrcode
 import os
 import json, uuid , shutil
+from importlib import util , resources
 from MedatechUK.oDataConfig import Config
 from MedatechUK.cl import clArg
 import debugpy
 import os , time , sys
 from pathlib import Path
 import importlib.util
+import Landlord
 
 def main():
     arg = clArg()
@@ -25,14 +27,24 @@ def main():
     if "python" not in sys.executable: WorkingDir = Path(sys.executable).parent
     WorkingDir = os.path.join(WorkingDir , "pyLabels")
 
-    if not os.path.exists(os.path.join(WorkingDir, arg.byName(["save","s"]))):
-        os.mkdir(os.path.join(WorkingDir, arg.byName(["save","s"])))
-
     debug = False
     config = Config(
         env = arg.byName(["env","e"])
         , path = WorkingDir
     )
+
+    res = resources.files("Landlord")
+    fpath = res.joinpath("undercon.pdf")    
+    with resources.as_file(fpath) as resfile:
+        with open( os.path.join (
+                config.config.file.savedir
+                , "{}.pdf".format( arg.byName(["save","s"]))
+            ) , "wb" ) as file:
+
+            file.write( resfile.read_bytes() )    
+
+    if not os.path.exists(os.path.join(WorkingDir, arg.byName(["save","s"]))):
+        os.mkdir(os.path.join(WorkingDir, arg.byName(["save","s"])))
 
     if "debug" in arg.kwargs():
         debug = True

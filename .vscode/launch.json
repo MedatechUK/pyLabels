@@ -5,23 +5,39 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Current File",
-            "type": "debugpy",
+            "name": "Python: Current File",
+            "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["-user","16","-env","fuld1","-save","234678"],
             "justMyCode": true
         },
         {
-            "name": "Python Debugger: Attach",
+            "name": "Landlord.exe",
             "type": "debugpy",
             "request": "attach",            
             "connect": {
               "host": "localhost",
-              "port": 5678
+              "port": 4567
             },
+            "justMyCode": false
+          },        
+        {
+            "name": "Landlord",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/Landlord.py",
+            "console": "integratedTerminal",
             "justMyCode": true
-          }
+        },
+        {
+            "name": "mkLabel",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/mkLabel.py",
+            "console": "integratedTerminal",
+            "args": ["-user","16","-env","fuld1","-save","234678"],
+            "justMyCode": true
+        },        
     ]
 }
