@@ -63,7 +63,7 @@ def main():
     spec.loader.exec_module(labeldefs)
     
     # Create the sheet.
-    spec = util.spec_from_file_location("label.template", os.path.join(WorkingDir , '{}.py'.format( row[0] )))
+    spec = util.spec_from_file_location("label.template", os.path.join(WorkingDir , '{}'.format( label )))
     template = util.module_from_spec(spec)
     sys.modules["label.template"] = template
     spec.loader.exec_module(template)
@@ -87,7 +87,7 @@ def main():
             + "AND   (dbo.LABELSDEF.LABELPATH = '{}') "
             + "ORDER BY dbo.LABELS.SORT ").format(
                 user
-                , label
+                , label.replace(".py","")
             )
     tlabels = cursor.execute(sql)
     thisLabels = []
