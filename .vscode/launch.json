@@ -36,7 +36,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/mkLabel.py",
             "console": "integratedTerminal",
-            "args": ["-user","16","-env","fuld1","-save","234678"],
+            "args": ["-user","16","-env","fuld1","-save","234678","-label" , "paycard"],
             "justMyCode": true
         },        
     ]

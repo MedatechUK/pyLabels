@@ -13,8 +13,11 @@ def main():
     if "python" not in sys.executable: WorkingDir = Path(sys.executable).parent
     WorkingDir = os.path.join(WorkingDir , "pyLabels")
     if not os.path.exists(WorkingDir):
-        print ("No pyLabel folder found.")
-        return None        
+        print ("pyLabel folder found.")
+        return None       
+    if not os.path.exists( os.path.join(WorkingDir , '{}.py'.format( "LabelSpec" )) ):
+        print ("No LabelSpec file found.")
+        return None               
     
     arg = clArg()
     if arg.byName(["user","u"])==None:
@@ -64,7 +67,7 @@ def main():
     spec.loader.exec_module(labeldefs)
     
     # Create the sheet.
-    spec = util.spec_from_file_location("label.template", os.path.join(WorkingDir , '{}.py'.format( row[0] )))
+    spec = util.spec_from_file_location("label.template", os.path.join(WorkingDir , '{}'.format( label )))
     template = util.module_from_spec(spec)
     sys.modules["label.template"] = template
     spec.loader.exec_module(template)
