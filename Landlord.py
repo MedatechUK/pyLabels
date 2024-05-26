@@ -848,8 +848,8 @@ class LandlordUI(object):
             os.mkdir(os.path.join(Path(__file__).parent , "pyLabels" , "tmp"))
 
         if not os.path.exists(os.path.join(Path(__file__).parent , "pyLabels" , fname)):
-            res = resources.files("Landlord")
-            fpath = res.joinpath(fname)
+            res = resources.files("MedatechUK.Landlord")
+            fpath = res.joinpath("files/{}".format( fname ))
             with resources.as_file(fpath) as resfile:
                 with open(os.path.join(Path(__file__).parent , "pyLabels" , fname), "w") as file:
                     file.write( resfile.read_text() )
@@ -1673,7 +1673,7 @@ class LandlordUI(object):
             file.write("from reportlab.graphics import shapes\n")
             file.write("from reportlab.graphics.charts.textlabels import Label \n")
             file.write("from reportlab.lib.colors import Color\n")
-            file.write("from Landlord.Unpack import mkBarcode\n\n")
+            file.write("from MedatechUK.Landlord.Unpack import mkBarcode\n\n")
 
             file.write("specs = sys.modules['label.labeldefs'].{} \n".format( self.l.template.specs.name ))
             file.write("border = False\n")

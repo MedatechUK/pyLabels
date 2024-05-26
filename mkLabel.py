@@ -41,8 +41,8 @@ def main():
         , path = WorkingDir
     )
 
-    res = resources.files("Landlord")
-    fpath = res.joinpath("undercon.pdf")    
+    res = resources.files("MedatechUK.Landlord")
+    fpath = res.joinpath("files/undercon.pdf")    
     with resources.as_file(fpath) as resfile:
         with open( os.path.join (
             config.config.file.savedir
