@@ -22,11 +22,11 @@ testdata = ({
         ]
     },
     "COUNT": 1,
-    "PAR1": "Test Data 1",
-    "PAR2": "Test Data 2",
-    "PAR3": "Test Data 3",
+    "PAR1": "Hello!",
+    "PAR2": "Test!",
+    "PAR3": "Wow!",
     "PAR4": "Test Data 4",
-    "PAR5": "Test Data 5",
+    "PAR5": "Here",
     "PAR6": "Test Data 6",
     "PAR7": "Test Data 7",
     "PAR8": "Test Data 8",
@@ -41,14 +41,52 @@ testdata = ({
     "PAR17": "Test Data 17",
     "PAR18": "Test Data 18",
     "PAR19": "Test Data 19",
-    "PAR20": "Test Data 20"
+    "PAR20": "Test Data 20",
+    "clean": [
+        "M:\\python\\ap\\pyLabels\\tmp\\1659203f-a551-4e92-bb82-ebfdd3079e05QWERTYUIOP123456789.png"
+    ]
 })
 
 def draw_label(label, width, height, obj):
 
-	Side_Text = Label ( 
-		__name__ = 'Side Text'
-		, __formatStr__ = '<P5>\n<P3>\n<P6>'
+	Text_0 = Label ( 
+		__name__ = 'Text 0'
+		, __formatStr__ = '<P5>'
+		, boxAnchor = 'nw' 
+		, boxStrokeWidth = 0.5 
+		, boxTarget = 'normal' 
+		, fillColor = Color(0,0,0,1) 
+		, fontName = 'Helvetica' 
+		, fontSize = 12 
+		, strokeWidth = 0.1 
+		, textAnchor = 'start' 
+		, visible = 1 
+		, x = 6.7999999999999945 
+		, y = 84.40000000000002 
+	)
+	label.add ( Text_0 )
+
+	Text_45 = Label ( 
+		__name__ = 'Text 45'
+		, __formatStr__ = '<P2>'
+		, angle = 45 
+		, boxAnchor = 'nw' 
+		, boxStrokeWidth = 0.5 
+		, boxTarget = 'normal' 
+		, fillColor = Color(0,0,0,1) 
+		, fontName = 'Helvetica' 
+		, fontSize = 12 
+		, strokeWidth = 0.1 
+		, textAnchor = 'start' 
+		, visible = 1 
+		, x = 24.800000000000004 
+		, y = 43.20000000000001 
+	)
+	label.add ( Text_45 )
+
+	Text_90 = Label ( 
+		__name__ = 'Text 90'
+		, __formatStr__ = '<P1>'
 		, angle = 90 
 		, boxAnchor = 'nw' 
 		, boxStrokeWidth = 0.5 
@@ -59,42 +97,23 @@ def draw_label(label, width, height, obj):
 		, strokeWidth = 0.1 
 		, textAnchor = 'start' 
 		, visible = 1 
-		, x = 110.00000000000001 
-		, y = 20 
 	)
-	label.add ( Side_Text )
+	label.add ( Text_90 )
 
-	Bottom_Text = Label ( 
-		__name__ = 'Bottom Text'
-		, __formatStr__ = '<P1> (<P2>)'
-		, boxAnchor = 'nw' 
-		, boxStrokeWidth = 0.5 
-		, boxTarget = 'normal' 
-		, fillColor = Color(0,0,0,1) 
-		, fontName = 'Helvetica' 
-		, fontSize = 12 
-		, strokeWidth = 0.1 
-		, textAnchor = 'start' 
-		, visible = 1 
-		, x = 8 
-		, y = 12 
-	)
-	label.add ( Bottom_Text )
-
-	QRcode_1 = shapes.Image ( 
-		__name__ = 'QRcode 1'
+	QRcode = shapes.Image ( 
+		__name__ = 'QRcode'
 		, __formatStr__ = '<QR>'
 		, __encoding__ = 'QRCODE'
-		, __filename__ = '8eed70e1-783c-4d6e-a57e-34b8dca71bcf'
+		, __filename__ = 'QWERTYUIOP123456789'
 		, path = ''
 		, fillColor = Color(0,0,0,1) 
-		, height = 89.57777777777775 
+		, height = 100.0 
 		, strokeColor = Color(0,0,0,1) 
 		, strokeWidth = 1 
-		, width = 89.57777777777775 
-		, x = 10.000000000000002 
-		, y = 11.422222222222263 
+		, width = 100 
+		, x = 79.39999999999999 
+		, y = 10.199999999999998 
 	)
-	label.add ( QRcode_1 )
+	label.add ( QRcode )
 
 	mkBarcode(label , obj , uuid.uuid4())

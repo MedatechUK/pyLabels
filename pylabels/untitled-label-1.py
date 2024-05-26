@@ -46,55 +46,36 @@ testdata = ({
 
 def draw_label(label, width, height, obj):
 
-	Side_Text = Label ( 
-		__name__ = 'Side Text'
-		, __formatStr__ = '<P5>\n<P3>\n<P6>'
-		, angle = 90 
-		, boxAnchor = 'nw' 
-		, boxStrokeWidth = 0.5 
-		, boxTarget = 'normal' 
-		, fillColor = Color(0,0,0,1) 
-		, fontName = 'Helvetica' 
-		, fontSize = 12 
-		, strokeWidth = 0.1 
-		, textAnchor = 'start' 
-		, visible = 1 
-		, x = 110.00000000000001 
-		, y = 20 
-	)
-	label.add ( Side_Text )
-
-	Bottom_Text = Label ( 
-		__name__ = 'Bottom Text'
-		, __formatStr__ = '<P1> (<P2>)'
-		, boxAnchor = 'nw' 
-		, boxStrokeWidth = 0.5 
-		, boxTarget = 'normal' 
-		, fillColor = Color(0,0,0,1) 
-		, fontName = 'Helvetica' 
-		, fontSize = 12 
-		, strokeWidth = 0.1 
-		, textAnchor = 'start' 
-		, visible = 1 
-		, x = 8 
-		, y = 12 
-	)
-	label.add ( Bottom_Text )
-
 	QRcode_1 = shapes.Image ( 
 		__name__ = 'QRcode 1'
 		, __formatStr__ = '<QR>'
 		, __encoding__ = 'QRCODE'
-		, __filename__ = '8eed70e1-783c-4d6e-a57e-34b8dca71bcf'
+		, __filename__ = '811c95c7-d161-460e-92a7-054c726bb9a7'
 		, path = ''
 		, fillColor = Color(0,0,0,1) 
-		, height = 89.57777777777775 
+		, height = 71.57777777777775 
 		, strokeColor = Color(0,0,0,1) 
 		, strokeWidth = 1 
-		, width = 89.57777777777775 
-		, x = 10.000000000000002 
-		, y = 11.422222222222263 
+		, width = 71.57777777777775 
+		, x = 105.66666666666669 
+		, y = 34.42222222222227 
 	)
 	label.add ( QRcode_1 )
+
+	Barcode_1 = shapes.Image ( 
+		__name__ = 'Barcode 1'
+		, __formatStr__ = '123123123123'
+		, __encoding__ = 'EAN13'
+		, __filename__ = '4e9ca29c-ac19-4a72-8103-43c1acf8e657'
+		, path = ''
+		, fillColor = Color(0,0,0,1) 
+		, height = 53.53728489483748 
+		, strokeColor = Color(0,0,0,1) 
+		, strokeWidth = 1 
+		, width = 100 
+		, x = 2.3333333333333304 
+		, y = 41.93987677926494 
+	)
+	label.add ( Barcode_1 )
 
 	mkBarcode(label , obj , uuid.uuid4())

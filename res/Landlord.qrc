@@ -19,10 +19,4 @@
     <file alias="printfile">print.ico</file>
 
   </qresource>
-  <qresource prefix="bmp">  
-    <file alias="barcode">barcode-3.bmp</file>
-    <file alias="qrcode">barcode-read-3.bmp</file>
-    <file alias="image">image-3.bmp</file>
-    <file alias="text">text-size-3.bmp</file>
-  </qresource>    
 </RCC>
