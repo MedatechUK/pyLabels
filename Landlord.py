@@ -1712,7 +1712,7 @@ class LandlordUI(object):
                     case sType.text:
                         file.write("\t{} = Label ( \n".format(i.__name__.replace(" ","_")))
                         file.write("\t\t__name__ = '{}'\n".format(i.__name__))
-                        file.write("\t\t, __formatStr__ = '{}'\n".format(i.__formatStr__))                        
+                        file.write("\t\t, __formatStr__ = '{}'\n".format(i.__formatStr__.replace("\n","\\n")))                        
                         for p in [p for p in self.Props(i) ]:
                             file.write("\t\t, {} = {} \n".format(p[0] , p[1]))
 
