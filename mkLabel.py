@@ -1,11 +1,10 @@
-import os , sys , debugpy
+import os , sys , debugpy , labels
 from importlib import resources , util
 from pathlib import Path
-from MedatechUK.oDataConfig import Config
-from MedatechUK.cl import clArg
-import labels
 
-import Landlord
+from MedatechUK.APY.oDataConfig import Config
+from MedatechUK.APY.cl import clArg
+import MedatechUK.Landlord  
 
 def main():
 

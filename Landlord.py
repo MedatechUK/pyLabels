@@ -29,16 +29,16 @@ from fontTools import ttLib
 from decimal import Decimal
 mm = Decimal(mm)
 
-from Landlord.labelDef import labelDef
-from Landlord.labelDef import sType
-from Landlord.labelUI import MyLabel
-from Landlord.buttonUI import DragButton , ClickButton
-from Landlord.formUI import MyForm
-from Landlord.sliderUI import CustomSlider
-from Landlord.props import myProps
-from Landlord.dialogUI import OkOnlyDialog
-from Landlord.settings import iniTree
-from Landlord import LandlordIcons 
+from MedatechUK.Landlord.labelDef import labelDef
+from MedatechUK.Landlord.labelDef import sType
+from MedatechUK.Landlord.labelUI import MyLabel
+from MedatechUK.Landlord.buttonUI import DragButton , ClickButton
+from MedatechUK.Landlord.formUI import MyForm
+from MedatechUK.Landlord.sliderUI import CustomSlider
+from MedatechUK.Landlord.props import myProps
+from MedatechUK.Landlord.dialogUI import OkOnlyDialog
+from MedatechUK.Landlord.settings import iniTree
+from MedatechUK.Landlord import LandlordIcons 
 
 import barcode
 from barcode.writer import ImageWriter
@@ -707,7 +707,7 @@ class LandlordUI(object):
     def setUI(self,enabled):
         hasfile = "l" in dir(self)
         self.slider.setEnabled(hasfile and enabled)
-        for i in [i for i in self.dockWidgetContents_3.children() if str(type(i))=="<class 'PyQt6.QtWidgets.QPushButton'>" or str(type(i)) =="<class 'Landlord.buttonUI.DragButton'>"]:
+        for i in [i for i in self.dockWidgetContents_3.children() if type(i).__name__ in ["DragButton" , "ClickButton"] ]:
             i.setEnabled(hasfile and enabled)
 
         if hasfile:
