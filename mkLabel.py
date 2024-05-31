@@ -1,10 +1,10 @@
-import os , sys , debugpy , labels
+import os , sys , debugpy , labels , uuid
 from importlib import resources , util
 from pathlib import Path
 
 from MedatechUK.APY.oDataConfig import Config
 from MedatechUK.APY.cl import clArg
-import MedatechUK.Landlord  
+from MedatechUK.Landlord  import LandlordIcons
 
 def main():
 
@@ -42,6 +42,8 @@ def main():
     )
 
     res = resources.files("MedatechUK.Landlord")
+    print(str(res))
+
     fpath = res.joinpath("files/undercon.pdf")    
     with resources.as_file(fpath) as resfile:
         with open( os.path.join (
