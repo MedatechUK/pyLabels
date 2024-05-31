@@ -11,24 +11,14 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true
-        },
-        {
-            "name": "Landlord.exe",
-            "type": "debugpy",
-            "request": "attach",            
-            "connect": {
-              "host": "localhost",
-              "port": 4567
-            },
-            "justMyCode": false
-          },        
+        },    
         {
             "name": "Landlord",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/Landlord.py",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": false
         },
         {
             "name": "mkLabel",

@@ -22,7 +22,7 @@ testdata = ({
         ]
     },
     "COUNT": 1,
-    "PAR1": "Test Data 1",
+    "PAR1": "Some data here",
     "PAR2": "Test Data 2",
     "PAR3": "Test Data 3",
     "PAR4": "Test Data 4",
@@ -41,41 +41,48 @@ testdata = ({
     "PAR17": "Test Data 17",
     "PAR18": "Test Data 18",
     "PAR19": "Test Data 19",
-    "PAR20": "Test Data 20"
+    "PAR20": "Test Data 20",
+    "clean": [
+        "M:\\python\\ap\\pyLabels\\tmp\\a152e422-7e5f-4517-8e75-0e1ca527d0c944c13b86-6d39-43c5-afae-a1ba93e8439d.png"
+    ]
 })
 
 def draw_label(label, width, height, obj):
 
-	QRcode_1 = shapes.Image ( 
-		__name__ = 'QRcode 1'
-		, __formatStr__ = '<QR>'
-		, __encoding__ = 'QRCODE'
-		, __filename__ = '811c95c7-d161-460e-92a7-054c726bb9a7'
+	Image_1 = shapes.Image ( 
+		__name__ = 'Image 1'
+		, __filename__ = 'circle-check.png'
 		, path = ''
 		, fillColor = Color(0,0,0,1) 
-		, height = 71.57777777777775 
+		, height = 90.3111111111111 
 		, strokeColor = Color(0,0,0,1) 
 		, strokeWidth = 1 
-		, width = 71.57777777777775 
-		, x = 105.66666666666669 
-		, y = 34.42222222222227 
+		, width = 90.3111111111111 
+		, x = 2.6666666666666674 
+		, y = 6.6666666666666945 
 	)
-	label.add ( QRcode_1 )
+	label.add ( Image_1 )
 
-	Barcode_1 = shapes.Image ( 
-		__name__ = 'Barcode 1'
-		, __formatStr__ = '123123123123'
-		, __encoding__ = 'EAN13'
-		, __filename__ = '4e9ca29c-ac19-4a72-8103-43c1acf8e657'
-		, path = ''
-		, fillColor = Color(0,0,0,1) 
-		, height = 53.53728489483748 
-		, strokeColor = Color(0,0,0,1) 
-		, strokeWidth = 1 
-		, width = 100 
-		, x = 2.3333333333333304 
-		, y = 41.93987677926494 
+	Text_Box_1 = Label ( 
+		__name__ = 'Text Box 1'
+		, __formatStr__ = '<P1>'
+		, bottomPadding = 4 
+		, boxAnchor = 'nw' 
+		, boxFillColor = Color(255,0,0,1) 
+		, boxStrokeWidth = 0.5 
+		, boxTarget = 'normal' 
+		, fillColor = Color(255,255,255,1) 
+		, fontName = 'Helvetica' 
+		, fontSize = 17 
+		, leftPadding = 4 
+		, rightPadding = 4 
+		, strokeWidth = 0.1 
+		, textAnchor = 'start' 
+		, topPadding = 4 
+		, visible = 1 
+		, x = 46.2857142857144 
+		, y = 32.80952380952383 
 	)
-	label.add ( Barcode_1 )
+	label.add ( Text_Box_1 )
 
 	mkBarcode(label , obj , uuid.uuid4())

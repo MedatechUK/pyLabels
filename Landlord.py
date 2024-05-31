@@ -945,6 +945,15 @@ class LandlordUI(object):
         self.labelCombo.currentIndexChanged.connect(self.labelSelection)
     
     def MenuClick(self, action):
+        """
+        Handle menu click events and perform corresponding actions.
+
+        Args:
+            action (str): The action to be performed.
+
+        Returns:
+            None
+        """
 
         def reDraw():
             self.drawSelect()
@@ -959,18 +968,19 @@ class LandlordUI(object):
                 self.l.hasFile = True
 
             if self.labeldefs.hasChanges:
-                #Save Spec here
-                self.SaveLabelDef()                
+                # Save Spec here
+                self.SaveLabelDef()
 
             self.setUI(True)
 
-        def confirmSaveChanges()->bool:
+        def confirmSaveChanges() -> bool:
             if "l" in dir(self):
                 if self.l.hasChanges:
                     msg_box = QMessageBox()
                     msg_box.setWindowTitle("Confirmation")
                     msg_box.setText("Save changes to {}?".format(self.l.file))
-                    msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel)
+                    msg_box.setStandardButtons(
+                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel)
                     match msg_box.exec():
                         case QMessageBox.StandardButton.Yes:
                             self.MenuClick("btnSave")
@@ -979,13 +989,15 @@ class LandlordUI(object):
                             return False
                         case _:
                             return True
-                else: return True
-            else: 
+                else:
+                    return True
+            else:
                 if self.labeldefs.hasChanges:
                     msg_box = QMessageBox()
                     msg_box.setWindowTitle("Confirmation")
                     msg_box.setText("Save changes to Label Definitions?")
-                    msg_box.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel)
+                    msg_box.setStandardButtons(
+                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel)
                     match msg_box.exec():
                         case QMessageBox.StandardButton.Yes:
                             saveDone()
@@ -994,7 +1006,8 @@ class LandlordUI(object):
                             return False
                         case _:
                             return True
-                else: return True                
+                else:
+                    return True
 
         match action:
 
@@ -1008,11 +1021,11 @@ class LandlordUI(object):
                     selected_file, _ = file_dialog.getOpenFileName(
                         None
                         , "Open Label"
-                        , os.path.join(Path(__file__).parent,"pylabels")
+                        , os.path.join(Path(__file__).parent, "pylabels")
                         , "Label Files (*.py)"
                     )
 
-                    if os.path.basename(selected_file).lower()=="labelspec.py":
+                    if os.path.basename(selected_file).lower() == "labelspec.py":
                         self.btnLabels.setChecked(True)
                         self.MenuClick("btnLabels")
 
@@ -1023,19 +1036,22 @@ class LandlordUI(object):
                                 reDraw()
 
                             except Exception as e:
-                                d = OkOnlyDialog(title = "Error!", message = "{} is not a valid label file.".format(os.path.basename(selected_file)))
-                                d.exec()                            
+                                d = OkOnlyDialog(title="Error!",
+                                                 message="{} is not a valid label file.".format(
+                                                     os.path.basename(selected_file)))
+                                d.exec()
                         else:
-                            d = OkOnlyDialog(title = "Error!", message = "{} does not exist.".format(os.path.basename(selected_file)))
-                            d.exec()                            
+                            d = OkOnlyDialog(title="Error!",
+                                             message="{} does not exist.".format(os.path.basename(selected_file)))
+                            d.exec()
 
             case "btnNew":
                 if confirmSaveChanges():
                     self.l = labelDef()
                     for l in [l for l in self.lspecs if l.default]:
-                        setattr(self.l.template , "specs" , l)
+                        setattr(self.l.template, "specs", l)
                         break
-                    
+
                     reDraw()
 
             case "btnSave":
@@ -1044,8 +1060,8 @@ class LandlordUI(object):
                         case False:
                             self.MenuClick("btnSaveas")
                         case _:
-                            self.SaveLabel(os.path.join(self.WorkingDir,self.l.file))
-                            print("Save Label: {}".format( os.path.join(self.WorkingDir , self.l.file) ))
+                            self.SaveLabel(os.path.join(self.WorkingDir, self.l.file))
+                            print("Save Label: {}".format(os.path.join(self.WorkingDir, self.l.file)))
                             pass
 
                 saveDone()
@@ -1053,60 +1069,60 @@ class LandlordUI(object):
             case "btnSaveas":
                 file_dialog = QFileDialog()
                 options = QFileDialog.options(file_dialog)
-                #options |= QFileDialog.Option.DontUseNativeDialog  # Disable native dialog
-                #options |= QFileDialog.Option.DontUseCustomDirectoryIcons  # Disable custom directory icons
+                # options |= QFileDialog.Option.DontUseNativeDialog  # Disable native dialog
+                # options |= QFileDialog.Option.DontUseCustomDirectoryIcons  # Disable custom directory icons
                 file_dialog.setOptions(options)
                 file_name, _ = QFileDialog.getSaveFileName(
                     None,  # Parent widget (can be None)
                     "Save File",  # Dialog title
-                    os.path.join(self.WorkingDir,self.l.file),  # Default directory path
+                    os.path.join(self.WorkingDir, self.l.file),  # Default directory path
                     "Python Labels (*.py)",  # Filter for file types
                     options=options
                 )
 
-                if file_name:
+                if file_name.endswith(".py"):
                     self.l.file = os.path.basename(file_name)
-                    print("Save As Label: {}".format( os.path.join(self.WorkingDir,self.l.file) ))
-                    self.SaveLabel(os.path.join(self.WorkingDir,self.l.file))
+                    print("Save As Label: {}".format(os.path.join(self.WorkingDir, self.l.file)))
+                    self.SaveLabel(os.path.join(self.WorkingDir, self.l.file))
                     saveDone()
 
             case "btnPrint":
-                
-                self.btnPrint.setEnabled(False)                
-                try:                                        
-                    sheet = labels.Sheet(self.l.template.specs, self.l.template.draw_label, self.l.template.border)                    
+
+                self.btnPrint.setEnabled(False)
+                try:
+                    sheet = labels.Sheet(self.l.template.specs, self.l.template.draw_label, self.l.template.border)
                     clean = []
                     self.Progress.setRange(0, self.l.template.specs.rows * self.l.template.specs.columns)
-                    self.Progress.setValue( 0 )
+                    self.Progress.setValue(0)
 
-                    for repeat in range( self.Progress.maximum() ) :
+                    for repeat in range(self.Progress.maximum()):
                         self.statusbar.repaint()
-                        self.Progress.setValue(self.Progress.value() + 1)                        
-                        self.statusbar.showMessage("Printing Label {}".format( str(self.Progress.value()) ))
-                        
+                        self.Progress.setValue(self.Progress.value() + 1)
+                        self.statusbar.showMessage("Printing Label {}".format(str(self.Progress.value())))
+
                         t = self.l.template.testdata
                         sheet.add_label(t)
-                        clean.extend( t["clean"] )
+                        clean.extend(t["clean"])
 
                     fn = os.path.join(
                         self.WorkingDir
                         , "tmp"
-                        , "preview_{}.pdf".format( self.l.file.split(".")[0] )
+                        , "preview_{}.pdf".format(self.l.file.split(".")[0])
                     )
-                    
+
                     self.statusbar.showMessage("Saving...")
                     sheet.save(fn)
                     for i in clean:
                         os.remove(i)
 
                     os.startfile(fn)
-                    
+
                 except:
                     pass
 
                 finally:
                     self.statusbar.showMessage("")
-                    self.Progress.setValue( 0 )          
+                    self.Progress.setValue(0)
                     self.setUI(True)
 
             case "btnLabels":
@@ -1126,13 +1142,20 @@ class LandlordUI(object):
             case "closing":
                 MainWindow.closing = confirmSaveChanges()
                 if MainWindow.closing:
-                    if "l" in dir(self):                    
+                    if "l" in dir(self):
                         self.l.__exit__(None, None, None)
 
             case _:
                 pass
 
     def toolClick(self, action , pos=None):
+        """
+        Handle the click event for different tools.
+
+        Args:
+            action (str): The action triggered by the tool button.
+            pos (QPoint, optional): The position of the click event. Defaults to None.
+        """
         def focusShape(Shape):
             self.drawCombo()
             self.comboBox.setCurrentIndex( self.comboBox.findText(Shape.__name__))
@@ -1431,7 +1454,10 @@ class LandlordUI(object):
                 match str(type(_value)):
                     case "<class 'PyQt6.QtGui.QColor'>":
                         red, green, blue , alpha = _value.getRgb()
-                        setattr(i, _param.opts["name"] , Color(red,green,blue,alpha))
+                        if alpha>0:
+                            setattr(i, _param.opts["name"] , Color( red,green,blue ))
+                        else:
+                            setattr(i, _param.opts["name"] , None ) #Color(255,255,255))
                     case _ :
                         match _param.opts["name"]:
                             case "Name":
@@ -1458,6 +1484,12 @@ class LandlordUI(object):
         self.render()
 
     def drawCombo(self):
+        """
+        Populates a combo box with items from a list and sets the selected item based on the current text.
+
+        Returns:
+            None
+        """
         sel = self.comboBox.currentText()
         if len(sel) == 0: sel = "Label"
         self.comboBox.clear()
@@ -1467,7 +1499,7 @@ class LandlordUI(object):
             self.comboBox.addItem(i.__name__)
             if i.__name__ == sel: f = True
         if not f: sel = "Label"
-        self.comboBox.setCurrentIndex( self.comboBox.findText(sel))
+        self.comboBox.setCurrentIndex(self.comboBox.findText(sel))
 
     def labelParams(self):
         parameters = []
@@ -1512,7 +1544,7 @@ class LandlordUI(object):
                 {'name': 'PAR19', 'type': 'str', 'value': (self.l.template.testdata["PAR19"]) , 'readonly': False},
                 {'name': 'PAR20', 'type': 'str', 'value': (self.l.template.testdata["PAR20"]) , 'readonly': False}
             ]
-            })
+        })
 
         return Parameter.create(name='params', type='group', children=parameters)
 
