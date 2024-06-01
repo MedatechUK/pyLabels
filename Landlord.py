@@ -1,6 +1,7 @@
 #region "Imports"
 
 import sys , os, copy , uuid , json , shutil
+import pickle
 from importlib import util , resources
 from io import BytesIO
 from pathlib import Path
@@ -696,6 +697,65 @@ class LandlordUI(object):
         self.btnLabels.setText(_translate("MainWindow", "Label Stock"))
         self.btnSettings.setText(_translate("MainWindow", "Settings"))
 
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Landlord Labels"))
+        self.menu_File.setTitle(_translate("MainWindow", "&File"))
+        self.menu_Tools.setTitle(_translate("MainWindow", "&View"))
+        self.dockTools.setWindowTitle(_translate("MainWindow", "Tools"))
+        self.btnAddTextBox.setToolTip(_translate("MainWindow", "Add Text Shape"))
+        self.btnAddTextBox.setStatusTip(_translate("MainWindow", "Add Text Shape"))
+        self.btnAddImg.setToolTip(_translate("MainWindow", "Add Image Shape"))
+        self.btnAddImg.setStatusTip(_translate("MainWindow", "Add Image Shape"))
+        self.btnAddBarcode.setToolTip(_translate("MainWindow", "Add Barcode"))
+        self.btnAddBarcode.setStatusTip(_translate("MainWindow", "Add Barcode"))
+        self.btnAddQR.setToolTip(_translate("MainWindow", "Add QR Code"))
+        self.btnAddQR.setStatusTip(_translate("MainWindow", "Add QR Code"))
+        self.dockProperties.setWindowTitle(_translate("MainWindow", "Properties"))
+        self.btnCopyShape.setToolTip(_translate("MainWindow", "Copy Shape"))
+        self.btnCopyShape.setStatusTip(_translate("MainWindow", "Copy Shape"))
+        self.btnUpDown.setToolTip(_translate("MainWindow", "Z-Order"))
+        self.btnUpDown.setStatusTip(_translate("MainWindow", "Z-Order"))
+        self.btnDeleteShape.setToolTip(_translate("MainWindow", "Delete Shape"))
+        self.btnDeleteShape.setStatusTip(_translate("MainWindow", "Delete Shape"))
+        self.btnUp.setText(_translate("MainWindow", "up"))
+        self.btnUp.setShortcut(_translate("MainWindow", "Up"))
+        self.btnDown.setText(_translate("MainWindow", "down"))
+        self.btnDown.setShortcut(_translate("MainWindow", "Down"))
+        self.btnDelete.setShortcut(_translate("MainWindow", "Del"))
+        self.btnLeft.setText(_translate("MainWindow", "left"))
+        self.btnLeft.setShortcut(_translate("MainWindow", "Left"))
+        self.btnRight.setText(_translate("MainWindow", "right"))
+        self.btnRight.setShortcut(_translate("MainWindow", "Right"))
+        self.btnNew.setToolTip(_translate("MainWindow", "New Label"))
+        self.btnNew.setStatusTip(_translate("MainWindow", "New Label"))
+        self.btnOpen.setToolTip(_translate("MainWindow", "Open Label"))
+        self.btnOpen.setStatusTip(_translate("MainWindow", "Open Label"))
+        self.btnSave.setToolTip(_translate("MainWindow", "Save Label"))
+        self.btnSave.setStatusTip(_translate("MainWindow", "Save Label"))
+        self.btnSaveas.setToolTip(_translate("MainWindow", "Save Label As"))
+        self.btnSaveas.setStatusTip(_translate("MainWindow", "Save Label As"))
+        self.btnPrint.setToolTip(_translate("MainWindow", "Print Label"))
+        self.btnPrint.setStatusTip(_translate("MainWindow", "Print Label"))
+        self.dockLabels.setWindowTitle(_translate("MainWindow", "Label Stock"))
+        self.btnCopyLabel.setToolTip(_translate("MainWindow", "Copy Label"))
+        self.btnCopyLabel.setStatusTip(_translate("MainWindow", "Copy Label"))
+        self.dockSettings.setWindowTitle(_translate("MainWindow", "Settings"))
+        self.action_Open.setText(_translate("MainWindow", "&Open"))
+        self.actionSave.setText(_translate("MainWindow", "&Save"))
+        self.actionSaveAs.setText(_translate("MainWindow", "Save &As"))
+        self.actionExit.setText(_translate("MainWindow", "E&xit"))
+        self.action_New.setText(_translate("MainWindow", "&New"))
+        self.action.setText(_translate("MainWindow", "-"))
+        self.action_2.setText(_translate("MainWindow", "-"))
+        self.action_Print.setText(_translate("MainWindow", "&Print"))
+        self.btnRefreshFont.setText(_translate("MainWindow", "Import Fonts"))
+        self.btnLabels.setText(_translate("MainWindow", "Label Stock"))
+        self.btnSettings.setText(_translate("MainWindow", "Settings"))
+
 #endregion
 
 #region Methods"
@@ -881,6 +941,7 @@ class LandlordUI(object):
         self.label.mouse_click.connect(self.mouse_click)
         self.label.mouse_Move.connect(self.mouse_Move)
         self.label.mouse_drop.connect(self.mouse_drop)
+        self.label.right_click.connect(self.right_click)
 
         self.Progress = QProgressBar()
         self.Progress.setMaximumWidth(200)
@@ -1173,7 +1234,6 @@ class LandlordUI(object):
         match action:
             case "btnAddTextBox":
                 newShape = Label( __formatStr__="Some Value" , __name__= nameCheck("Text Box") , boxAnchor = 'nw' , angle = 0 , fontName="Helvetica", fontSize=12 )
-
                 newShape.setOrigin(self.l.c.width * pos.x() , self.l.c.height * pos.y())
                 newShape.setText(newShape.__name__)
                 self.l.c.add(newShape)
@@ -1198,13 +1258,6 @@ class LandlordUI(object):
                 newShape.y = newShape.y - newShape.height
                 self.l.c.add(newShape)
                 focusShape(newShape)                
-
-            case "btnCopyShape":
-                i = self.l.isShape(self.comboBox.currentText())
-                copyShape = copy.deepcopy(i)
-                copyShape.__name__ = nameCheck("copy of {}".format(i.__name__))
-                self.l.c.add(copyShape)
-                focusShape(copyShape)
 
             case "btnDeleteShape":
                 i = self.l.isShape(self.comboBox.currentText())
@@ -1268,6 +1321,27 @@ class LandlordUI(object):
                         case _:
                             pass
                     self.drawCombo()
+
+            case "btnCopyShape":
+                i = self.l.isShape(self.comboBox.currentText())
+                byte_array = QByteArray(pickle.dumps(i))
+                mimeData = QMimeData()
+                mimeData.setData("application/python-pickle", byte_array)                    
+                QGuiApplication.clipboard().setMimeData(mimeData)
+
+            case "paste":
+                mimeData = QGuiApplication.clipboard().mimeData()
+                if mimeData.hasFormat("application/python-pickle"):
+                    byte_array = mimeData.data("application/python-pickle")
+                    i = pickle.loads(byte_array)
+                    i.__name__ = nameCheck(i.__name__)
+                    i.x = self.l.c.width * pos.x() 
+                    i.y = self.l.c.height * pos.y()
+                    if self.l.isShape(i)!=sType.text: i.y = i.y - i.height
+                    self.l.c.add(i)
+                    # Clear the clipboard
+                    QGuiApplication.clipboard().clear()                    
+                    focusShape(i)
 
             case _:
                 pass
@@ -1343,6 +1417,84 @@ class LandlordUI(object):
                     case Qt.Key.Key_Delete:
                         self.toolClick("btnDeleteShape")
                         keyHandled()
+
+    def right_click(self, pos):
+
+        self.mouse_click(pos)
+        context_menu = QMenu()
+
+        copy = QAction("Copy", context_menu )
+        copy.__name__ = "copy"
+
+        paste = QAction("Paste", context_menu )
+        paste.__name__ = "paste"
+
+        BringToFront = QAction("Bring To Front", context_menu )
+        BringToFront.__name__ = "sendfront"
+
+        MoveBack = QAction("Move Back", context_menu)
+        MoveBack.__name__ = "moveback"
+
+        MoveForward = QAction("Move Forward", context_menu)
+        MoveForward.__name__ = "moveforward"
+
+        SendToBack = QAction("Send To Back", context_menu)
+        SendToBack.__name__ = "sendback"
+
+        delete = QAction("Delete", context_menu )
+        delete.__name__ = "delete"
+
+        for i in [i for i in context_menu.children() if "__name__" in dir(i)]:
+            i.setIcon(QIcon(":/ico/{}".format(i.__name__)))
+
+        mimeData = QGuiApplication.clipboard().mimeData()        
+        paste.setEnabled(mimeData.hasFormat("application/python-pickle"))
+
+        i = self.l.isShape(self.comboBox.currentText())
+        if i != None:
+            index = self.l.c.contents.index(i)
+            MoveBack.setEnabled(i != self.l.c.contents[0] )
+            MoveForward.setEnabled ( i != self.l.c.contents[len(self.l.c.contents)-1] )
+            BringToFront.setEnabled( MoveForward.isEnabled() )
+            SendToBack.setEnabled ( MoveBack.isEnabled() )
+
+            # Display the context menu
+            context_menu.addAction(copy)
+            context_menu.addAction(paste)
+            context_menu.addSeparator()
+            context_menu.addAction(BringToFront)
+            context_menu.addAction(MoveForward)
+            context_menu.addSeparator()
+            context_menu.addAction(MoveBack)
+            context_menu.addAction(SendToBack)
+            context_menu.addSeparator()
+            context_menu.addAction(delete)
+        
+        else:
+            if mimeData.hasFormat("application/python-pickle"):
+                context_menu.addAction(paste)
+
+        result = context_menu.exec(QCursor.pos())
+        if result != None:
+            match result.__name__:
+                case "sendfront":
+                    self.l.c.contents.insert(len(self.l.c.contents)-1, self.l.c.contents.pop(index))
+                case "moveback":
+                    self.l.c.contents.insert(index-1, self.l.c.contents.pop(index))
+                case "moveforward":
+                    self.l.c.contents.insert(index+1, self.l.c.contents.pop(index))
+                case "sendback":
+                    self.l.c.contents.insert(0, self.l.c.contents.pop(index))
+                case "delete":
+                    self.toolClick("btnDeleteShape")
+                case "paste":
+                    self.toolClick("paste", pos)
+                case "copy":
+                    self.toolClick("btnCopyShape")
+                case _:
+                    pass
+
+            self.drawCombo()
 
 #endregion
 

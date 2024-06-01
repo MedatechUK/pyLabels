@@ -7,43 +7,60 @@ from MedatechUK.APY.cl import clArg
 from MedatechUK.Landlord  import LandlordIcons
 
 def main():
-
+#region "Setup"
+    # Get the working directory
     WorkingDir = Path(__file__).parent
+    # If the script is running in a pyInstaller bundle, the path will be to a temp folder.
     if "python" not in sys.executable: WorkingDir = Path(sys.executable).parent
+    # If the working directory is the root of the project, change to the pyLabels folder.
     WorkingDir = os.path.join(WorkingDir , "pyLabels")
+    # If the pyLabels folder does not exist, exit.
     if not os.path.exists(WorkingDir):
+        # If the pyLabels folder does not exist, exit.
         print ("No pyLabel folder found.")
         return None        
     
     arg = clArg()
+    # If the user has not specified a user, exit.
     if arg.byName(["user","u"])==None:
         print ("No user specified.")
         return None
     else: user = int( arg.byName(["user","u"]) )
+    # If the user has not specified an environment, exit.
     if arg.byName(["env","e"])==None:
         print ("No environment specified.")
         return None    
     else: env = str(arg.byName(["env","e"]))
+    # If the user has not specified a save name, exit.
     if arg.byName(["save","s"])==None:
         print ("No save name specified.")
         return None    
     else: save = str(arg.byName(["save","s"]))
+    # If the user has not specified a label, exit.
     if arg.byName(["label","l"])==None:
         print ("No label specified.")
         return None    
-    else: label = "{}{}".format( str(arg.byName(["label","l"])) , "" if str(arg.byName(["label","l"])).lower().endswith(".py") else ".py" ) 
+    else: 
+        # If the label does not end with .py, add it.
+        label = "{}{}".format( str(arg.byName(["label","l"])) , "" if str(arg.byName(["label","l"])).lower().endswith(".py") else ".py" ) 
+
+    # If the label does not exist, exit.
     if not os.path.exists( os.path.join( WorkingDir , label )):
         print ("Label [{}] not found.".format(label))
         return None
-        
+    
     config = Config(
         env = env
         , path = WorkingDir
     )
 
+#endregion
+
+    # Get the icon resources
     res = resources.files("MedatechUK.Landlord")
     print(str(res))
 
+    # Save the under construction PDF
     fpath = res.joinpath("files/undercon.pdf")    
     with resources.as_file(fpath) as resfile:
         with open( os.path.join (
@@ -52,6 +69,7 @@ def main():
         ) , "wb" ) as file:
             file.write( resfile.read_bytes() )    
 
+    # If the user has specified debug, configure the debugger.
     debug = False
     if "debug" in arg.kwargs():
         debug = True
@@ -59,18 +77,22 @@ def main():
         debugpy.listen( int( config.debug.port ) )
         debugpy.wait_for_client()
 
-    spec = util.spec_from_file_location("label.labeldefs", os.path.join(WorkingDir , '{}.py'.format( "LabelSpec" )))
+    # Create the label definitions.
+    spec = util.spec_from_file_location("label.labeldefs", os.path.join(WorkingDir , '{}.py'.format( "LabelSpec" )))    
     labeldefs = util.module_from_spec(spec)
     sys.modules["label.labeldefs"] = labeldefs
+    # Execute the label definitions.
     spec.loader.exec_module(labeldefs)
     
-    # Create the sheet.
+    # Create the label template.
     spec = util.spec_from_file_location("label.template", os.path.join(WorkingDir , '{}'.format( label )))
     template = util.module_from_spec(spec)
     sys.modules["label.template"] = template
+    # Execute the label template.
     spec.loader.exec_module(template)
 
     template.debug = debug
+    # Create the label sheet.
     sheet = labels.Sheet(template.specs, template.draw_label, template.border)
 
     cnxn = Config.cnxn(config)
