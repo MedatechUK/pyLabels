@@ -1,10 +1,9 @@
-import os , sys , debugpy , labels , uuid
+import os , sys , debugpy , labels 
 from importlib import resources , util
 from pathlib import Path
 
 from MedatechUK.APY.oDataConfig import Config
 from MedatechUK.APY.cl import clArg
-from MedatechUK.Landlord  import LandlordIcons
 
 def main():
 #region "Setup"

@@ -2,8 +2,7 @@ import sys , uuid
 from reportlab.graphics import shapes
 from reportlab.graphics.charts.textlabels import Label 
 from reportlab.lib.colors import Color
-from MedatechUK.Landlord.Unpack import mkBarcode
-
+from MedatechUK.Landlord.label import mkBarcode
 specs = sys.modules['label.labeldefs'].L7160 
 border = False
 debug = False
@@ -42,9 +41,7 @@ testdata = ({
     "PAR18": "Test Data 18",
     "PAR19": "Test Data 19",
     "PAR20": "Test Data 20",
-    "clean": [
-        "M:\\python\\ap\\pyLabels\\tmp\\a152e422-7e5f-4517-8e75-0e1ca527d0c944c13b86-6d39-43c5-afae-a1ba93e8439d.png"
-    ]
+    "clean": []
 })
 
 def draw_label(label, width, height, obj):
@@ -58,8 +55,8 @@ def draw_label(label, width, height, obj):
 		, strokeColor = Color(0,0,0,1) 
 		, strokeWidth = 1 
 		, width = 90.3111111111111 
-		, x = 2.6666666666666674 
-		, y = 6.6666666666666945 
+		, x = -11.333333333333336 
+		, y = 7.666666666666675 
 	)
 	label.add ( Image_1 )
 
@@ -80,8 +77,8 @@ def draw_label(label, width, height, obj):
 		, textAnchor = 'start' 
 		, topPadding = 4 
 		, visible = 1 
-		, x = 46.2857142857144 
-		, y = 32.80952380952383 
+		, x = 55.28571428571439 
+		, y = 78.80952380952384 
 	)
 	label.add ( Text_Box_1 )
 

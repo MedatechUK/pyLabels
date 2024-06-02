@@ -2,7 +2,7 @@ import sys , uuid
 from reportlab.graphics import shapes
 from reportlab.graphics.charts.textlabels import Label 
 from reportlab.lib.colors import Color
-from MedatechUK.Landlord.Unpack import mkBarcode
+from MedatechUK.Landlord.label import mkBarcode
 
 specs = sys.modules['label.labeldefs'].L7160 
 border = False
