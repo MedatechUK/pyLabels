@@ -43,11 +43,7 @@ import labels
 
 #endregion
 
-#region "ui"
-
 class LandlordUI(UI):
-
-#endregion
 
 #region Methods"
 
@@ -571,8 +567,12 @@ class LandlordUI(UI):
                     case QMessageBox.StandardButton.Ok:
                         self.comboBox.setCurrentIndex( self.comboBox.currentIndex() - 1 )
                         self.l.c.contents.remove(i)
+                        if self.l.ShapeType(i)==sType.barcode:
+                            os.remove(i.path)
+
                         self.drawCombo()
                         self.objectSelection()                        
+
                     case _:
                         pass
 
@@ -639,6 +639,7 @@ class LandlordUI(UI):
                     i.x = self.l.c.width * pos.x() 
                     i.y = self.l.c.height * pos.y()
                     if self.l.ShapeType(i)!=sType.text: i.y = i.y - i.height
+                    if self.l.ShapeType(i)==sType.barcode: i.__filename__ = "{}".format(uuid.uuid4())
                     self.l.c.add(i)
                     # Clear the clipboard
                     QGuiApplication.clipboard().clear()                    
