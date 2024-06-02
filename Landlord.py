@@ -1241,18 +1241,18 @@ class LandlordUI(UI):
 
 if __name__ == "__main__":
     import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = MyForm()
-    ui = LandlordUI()        
-    ui.setupUi(MainWindow)    
-    ui.makeFile("settings.ini")
-    ui.makeFile("LabelSpec.py")        
-    ui.loadLabelDef()
-    ui.connectHandlers(MainWindow)
-    ui.refreshFonts(add=False)
-    ui.setUI(False)        
-    MainWindow.show()
+    
+    app = QtWidgets.QApplication(sys.argv)  # Create the application object
+    MainWindow = MyForm()                   # Create the main window    
+    ui = LandlordUI()                       # Create the UI    
+    ui.setupUi(MainWindow)                  # Load the UI    
+    ui.makeFile("settings.ini")             # Unpack setting.ini    
+    ui.makeFile("LabelSpec.py")             # Unpack LabelSpec.py    
+    ui.loadLabelDef()                       # Load the label definitions    
+    ui.connectHandlers(MainWindow)          # Connect the handlers    
+    ui.refreshFonts(add=False)              # Load fonts    
+    ui.setUI(False)                         # Set the UI read only    
+    MainWindow.show()                       # Show the main window 
     sys.exit(app.exec())
 
 #endregion
