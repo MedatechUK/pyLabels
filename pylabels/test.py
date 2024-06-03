@@ -3,7 +3,6 @@ from reportlab.graphics import shapes
 from reportlab.graphics.charts.textlabels import Label 
 from reportlab.lib.colors import Color
 from MedatechUK.Landlord.label import mkBarcode
-
 specs = sys.modules['label.labeldefs'].L7160 
 border = False
 debug = False
@@ -43,7 +42,7 @@ testdata = ({
     "PAR19": "Test Data 19",
     "PAR20": "Test Data 20",
     "clean": [
-        "M:\\python\\ap\\pyLabels\\tmp\\1659203f-a551-4e92-bb82-ebfdd3079e05QWERTYUIOP123456789.png"
+        "M:\\python\\ap\\pyLabels\\tmp\\e38346d6-246e-4472-9161-e81f1755f931QWERTYUIOP123456789.png"
     ]
 })
 
@@ -79,8 +78,8 @@ def draw_label(label, width, height, obj):
 		, strokeWidth = 0.1 
 		, textAnchor = 'start' 
 		, visible = 1 
-		, x = 24.800000000000004 
-		, y = 43.20000000000001 
+		, x = 34.80000000000001 
+		, y = 40.2 
 	)
 	label.add ( Text_45 )
 
@@ -115,5 +114,23 @@ def draw_label(label, width, height, obj):
 		, y = 10.199999999999998 
 	)
 	label.add ( QRcode )
+
+	Text_46 = Label ( 
+		__name__ = 'Text 46'
+		, __formatStr__ = '<P2>'
+		, angle = 45 
+		, boxAnchor = 'nw' 
+		, boxStrokeWidth = 0.5 
+		, boxTarget = 'normal' 
+		, fillColor = Color(0,0,0,1) 
+		, fontName = 'Helvetica' 
+		, fontSize = 12 
+		, strokeWidth = 0.1 
+		, textAnchor = 'start' 
+		, visible = 1 
+		, x = 48.57142857142858 
+		, y = 88.57142857142858 
+	)
+	label.add ( Text_46 )
 
 	mkBarcode(label , obj , uuid.uuid4())

@@ -14,7 +14,7 @@ from PyQt6.QtWidgets import QSlider
 from PyQt6.QtCore import Qt
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QFileDialog
-from pyqtgraph.parametertree import Parameter, ParameterTree
+from pyqtgraph.parametertree import Parameter, ParameterTree , parameterTypes
 from pyqtgraph.Qt import QtWidgets
 
 from reportlab.lib.colors import *
@@ -656,6 +656,15 @@ class LandlordUI(UI):
         self.slider.setValue(self.slider.value() + amount)
 
     def mouse_click(self, pos):
+        """
+        Handle mouse click event.
+
+        Args:
+            pos (QPoint): The position of the mouse click.
+
+        Returns:
+            None
+        """
         self.dockProperties.raise_()
         hit = []
         for i in [i for i in self.l.c.contents if self.l.ShapeType(i)!=sType.select]:
@@ -832,7 +841,7 @@ class LandlordUI(UI):
                     case _:
                         self.l.c.contents.insert(self.l.c.contents.index(i)-1, self.l.c.contents.pop(self.l.c.contents.index(self.selection)))
 
-                p = self.l.Params(i)
+                p = self.Params(i)
 
             case _:
                 match self.comboBox.currentText():
@@ -955,6 +964,8 @@ class LandlordUI(UI):
         if not f: sel = "Label"
         self.comboBox.setCurrentIndex(self.comboBox.findText(sel))
 
+#region "Params"    
+
     def labelParams(self):
         parameters = []
 
@@ -1001,6 +1012,101 @@ class LandlordUI(UI):
         })
 
         return Parameter.create(name='params', type='group', children=parameters)
+
+    def Params(self, obj):    
+        parameters = []
+        
+        parameters.append({'name': 'General',
+            'type': 'group',    
+            'children': [ 
+                {'name': 'Name', 'type': 'str', 'value': obj.__name__, 'readonly': self.l.ShapeType(obj)==sType.qr},
+                {'name': 'x', 'type': 'float', 'value': obj.x, 'siPrefix': True, 'suffix': 'mm', 'readonly': False},
+                {'name': 'y', 'type': 'float', 'value': obj.y , 'siPrefix': True, 'suffix': 'mm', 'readonly': False}
+            ]
+        })
+
+        match self.l.ShapeType(obj) :
+            case sType.qr | sType.image | sType.barcode:
+                parameters.append({'name': 'Size',
+                    'type': 'group',
+                    'children': [                                 
+                        {'name': 'width', 'type': 'int', 'value': obj.width , 'siPrefix': True, 'suffix': 'mm', 'readonly': False},
+                        {'name': 'height', 'type': 'int', 'value': obj.height , 'siPrefix': True, 'suffix': 'mm', 'readonly': False},
+                    ]
+                })          
+                if self.l.ShapeType(obj)==sType.image:
+                    parameters.append({'name': 'Image',
+                        'type': 'group',
+                        'children': []
+                    })        
+                    fopen = parameterTypes.FileParameter(
+                        title = "Image file"
+                        , name = "filename"
+                        , winTitle = "Select Image..."
+                        , nameFilter = 'PNG files (*.png);;Jpeg files (*.jpeg);;All files (*)'
+                        , directory = self.WorkingDir
+                        , relativeTo = Path(self.WorkingDir)                        
+                        , filename = obj.path
+                    )            
+                    fopen.setValue( obj.__filename__ ) 
+                    parameters[len(parameters)-1]["children"].append(fopen)
+
+                if self.l.ShapeType(obj) == sType.barcode:
+                    b = barcode
+                    barcodeEncodings = []
+                    barcodeEncodings.append("QRCODE")
+                    for i in b.PROVIDED_BARCODES:
+                        barcodeEncodings.append(i.upper())
+                    parameters.append({'name': 'Barcode',
+                        'type': 'group',
+                        'children': [                                                             
+                            {'title': 'Encoding' , 'name': '__encoding__', 'type': 'list', 'limits': barcodeEncodings, 'value': obj.__encoding__ }
+                            , {'title': 'Data', 'name': '__formatStr__', 'type': 'str', 'value': obj.__formatStr__ }                            
+                        ]
+                    })                   
+
+            case sType.text:
+                font = []
+                for f in pdfmetrics.getRegisteredFontNames(): font.append(f)                
+                
+                forecol = QColor(int(obj.fillColor.red), int(obj.fillColor.green) , int(obj.fillColor.blue) , 0 if obj.fillColor.alpha==0 else 255)
+                fillcol = QColor(0,0,0,0)
+                if obj.boxFillColor != None: fillcol =  QColor(obj.boxFillColor.red, obj.boxFillColor.green , obj.boxFillColor.blue , 0 if obj.boxFillColor.alpha==0 else 255)
+                
+                parameters.append({'name': 'Font',
+                    'type': 'group',
+                    'children': [                               
+                        {'name': 'fontSize', 'type': 'int', 'value': obj.fontSize , 'siPrefix': True, 'suffix': 'px', 'readonly': False},
+                        {'title': 'Forecolour', 'name': 'fillColor', 'type': 'color', 'value': forecol ,'readonly': False},
+                        {'title': 'Fillcolour', 'name': 'boxFillColor', 'type': 'color', 'value': fillcol ,'readonly': False},                                
+                        {'name': 'fontName', 'type': 'list', 'limits': font, 'value': obj.fontName }
+                    ]
+                })
+                parameters.append({'name': 'Rotation',
+                    'type': 'group',
+                    'children': [ 
+                        {'name': 'angle', 'type': 'int', 'value': obj.angle , 'siPrefix': True, 'suffix': 'deg', 'readonly': False},                                
+                        {'name': 'boxAnchor', 'type': 'list', 'limits': ['nw','sw','ne','se'], 'value': obj.boxAnchor , 'readonly': False},                                
+                    ]
+                })
+                parameters.append({'name': 'Padding',
+                    'type': 'group',
+                    'children': [ 
+                        {'name': 'leftPadding', 'type': 'int', 'value': obj.leftPadding , 'siPrefix': True, 'suffix': 'mm', 'readonly': False},                                
+                        {'name': 'rightPadding', 'type': 'int', 'value': obj.rightPadding , 'siPrefix': True, 'suffix': 'mm', 'readonly': False},                                
+                        {'name': 'topPadding', 'type': 'int', 'value': obj.topPadding , 'siPrefix': True, 'suffix': 'mm', 'readonly': False},                                
+                        {'name': 'bottomPadding', 'type': 'int', 'value': obj.bottomPadding , 'siPrefix': True, 'suffix': 'mm', 'readonly': False},                                
+                    ]
+                })    
+                parameters.append({'name': 'Data',
+                    'type': 'group',
+                    'children': [ 
+                        {'title': 'Format', 'name': '__formatStr__', 'type': 'text', 'value': obj.__formatStr__ , 'readonly': False}
+                    ]
+                })                                
+        return Parameter.create(name='params', type='group', children=parameters)
+
+#endregion
 
 #endregion
 

@@ -42,8 +42,9 @@ testdata = ({
     "PAR19": "Test Data 19",
     "PAR20": "Test Data 20",
     "clean": [
-        "M:\\python\\ap\\pyLabels\\tmp\\7ffd39b5-0496-415b-b9d8-553cbc4c8ff14ca20132-124d-4fdb-a544-5a1b170cc2ff.png",
-        "M:\\python\\ap\\pyLabels\\tmp\\7ffd39b5-0496-415b-b9d8-553cbc4c8ff120427446-96b7-494f-be4c-e5022b90987d.png"
+        "M:\\python\\ap\\pyLabels\\tmp\\1b5e8294-bd19-41aa-ab18-ec5521a364904ca20132-124d-4fdb-a544-5a1b170cc2ff.png",
+        "M:\\python\\ap\\pyLabels\\tmp\\1b5e8294-bd19-41aa-ab18-ec5521a3649020427446-96b7-494f-be4c-e5022b90987d.png",
+        "M:\\python\\ap\\pyLabels\\tmp\\1b5e8294-bd19-41aa-ab18-ec5521a3649034ddc8ef-c2df-4715-a44a-d00bbeeabdfe.png"
     ]
 })
 
@@ -75,8 +76,8 @@ def draw_label(label, width, height, obj):
 		, strokeColor = Color(0,0,0,1) 
 		, strokeWidth = 1 
 		, width = 90.3111111111111 
-		, x = 16.0 
-		, y = 7.755009451795843 
+		, x = 9.000000000000005 
+		, y = 6.7536849484845956 
 	)
 	label.add ( Image_1 )
 
