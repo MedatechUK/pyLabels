@@ -42,9 +42,9 @@ testdata = ({
     "PAR19": "Test Data 19",
     "PAR20": "Test Data 20",
     "clean": [
-        "M:\\python\\ap\\pyLabels\\tmp\\1b5e8294-bd19-41aa-ab18-ec5521a364904ca20132-124d-4fdb-a544-5a1b170cc2ff.png",
-        "M:\\python\\ap\\pyLabels\\tmp\\1b5e8294-bd19-41aa-ab18-ec5521a3649020427446-96b7-494f-be4c-e5022b90987d.png",
-        "M:\\python\\ap\\pyLabels\\tmp\\1b5e8294-bd19-41aa-ab18-ec5521a3649034ddc8ef-c2df-4715-a44a-d00bbeeabdfe.png"
+        "M:\\python\\ap\\pyLabels\\tmp\\3ceb10fd-b18d-48bc-92d0-a4efb4a334724ca20132-124d-4fdb-a544-5a1b170cc2ff.png",
+        "M:\\python\\ap\\pyLabels\\tmp\\3ceb10fd-b18d-48bc-92d0-a4efb4a3347220427446-96b7-494f-be4c-e5022b90987d.png",
+        "M:\\python\\ap\\pyLabels\\tmp\\3ceb10fd-b18d-48bc-92d0-a4efb4a3347234ddc8ef-c2df-4715-a44a-d00bbeeabdfe.png"
     ]
 })
 
@@ -108,8 +108,8 @@ def draw_label(label, width, height, obj):
 		, strokeColor = Color(0,0,0,1) 
 		, strokeWidth = 1 
 		, width = 55.577777777777754 
-		, x = 140.85714285714283 
-		, y = 0.4433942449065569 
+		, x = 184.85714285714286 
+		, y = 25.14273199325094 
 	)
 	label.add ( QRcode_1 )
 

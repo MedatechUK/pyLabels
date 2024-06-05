@@ -20,17 +20,13 @@ from pyqtgraph.Qt import QtWidgets
 from reportlab.lib.colors import *
 from reportlab.graphics.shapes import Rect
 from reportlab.graphics.charts.textlabels import Label
-from reportlab.lib.units import mm
 from reportlab.graphics import shapes
 from reportlab.lib import utils
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from fontTools import ttLib
 
-from decimal import Decimal
-mm = Decimal(mm)
-
-from MedatechUK.Landlord.label import labelDef , sType
+from MedatechUK.Landlord.label import labelDef , sType , mm
 from MedatechUK.Landlord.UI import UI , MyForm , CustomSlider , OkOnlyDialog
 from MedatechUK.Landlord import Icons 
 
